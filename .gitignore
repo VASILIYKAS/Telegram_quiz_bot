@@ -1,0 +1,58 @@
+# Байт-код и кэш Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Временные файлы
+*.swp
+*.bak
+*.tmp
+*.temp
+
+# Файлы окружения и конфигов
+.env
+.env.local
+.env.*
+*.env
+config.py
+
+# Логи и дампы БД
+*.log
+*.sql
+*.dump
+*.rdb  # Дампы Redis
+
+# Директории и файлы IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# Виртуальное окружение
+venv/
+env/
+.venv/
+ENV/
+
+# Пакеты Python
+*.egg-info/
+dist/
+build/
+pip-wheel-metadata/
+
+# Тесты и покрытие
+.coverage
+htmlcov/
+.pytest_cache/
+test.db
+
+### Redis ###
+# Исключаем файлы Redis, если они хранятся локально
+dump.rdb
+appendonly.aof
+redis-data/
+
+### macOS ###
+.DS_Store
+
+### Windows ###
+Thumbs.db
