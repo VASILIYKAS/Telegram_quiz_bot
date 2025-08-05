@@ -6,6 +6,9 @@ import os
 from textwrap import dedent
 from dotenv import load_dotenv
 from handlers import router
+
+import redis.asyncio as redis
+
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
@@ -19,6 +22,15 @@ async def set_menu_commands(bot: Bot):
     ])
 
 
+async def startup(redis_client):
+    try:
+        await redis_client.ping()
+        logging.info("Подключение к Redis успешно!")
+    except redis.RedisError as e:
+        logging.error(f"Ошибка подключения к Redis: {e}")
+        raise
+    
+    
 async def main() -> None:
     load_dotenv()
     
@@ -31,9 +43,22 @@ async def main() -> None:
         """))
         return
 
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    
     dp = Dispatcher()
     dp.include_router(router)
     
+    redis_client = redis.Redis(
+        host=os.getenv('REDIS_DB_HOST'),
+        port=os.getenv('REDIS_DB_PORT'),
+        decode_responses=True,
+        username="default",
+        password=os.getenv('REDIS_DB_PASSWORD'),
+    )
+    
+    dp['redis_client'] = redis_client
+    
+    await startup(redis_client)
     await set_menu_commands(bot)
     
     print("Бот запущен!")
@@ -41,5 +66,4 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(main())
