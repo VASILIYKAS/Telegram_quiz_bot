@@ -5,7 +5,7 @@ import os
 
 from textwrap import dedent
 from dotenv import load_dotenv
-from handlers import router
+from .handlers import router
 
 import redis.asyncio as redis
 

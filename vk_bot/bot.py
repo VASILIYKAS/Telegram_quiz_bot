@@ -1,15 +1,13 @@
 import os
-import random
-import re
 import logging
+import asyncio
 
 from dotenv import load_dotenv
 
 import redis.asyncio as redis
-import asyncio
 
 import vk_api
-from vk_api.longpoll import VkLongPoll, VkEventType
+from vk_api.longpoll import VkLongPoll
 
 from open_questions import load_questions
 from .handlers import handle_event
@@ -33,7 +31,7 @@ async def main():
 
     logging.basicConfig(level=logging.INFO)
 
-    questions = load_questions('anime10.txt')
+    questions = load_questions()
 
     print("Бот ВК запущен!")
 
