@@ -2,7 +2,10 @@
 
 Бот-викторина, который задаёт случайные вопросы и проверяет ответы пользователей.  
 Поддерживает работу как во ВКонтакте, так и в Telegram.  
-Хранение состояния (текущих вопросов и счёта) реализовано через Redis.
+Хранение состояния (текущих вопросов и счёта) реализовано через Redis.\
+Попробовать ботов:\
+[Телеграм бот](https://t.me/tgquizdvmn_bot)\
+[Вконтакте бот](https://vk.com/im/convo/-231079053?entrypoint=vkcom_right_column_menu)
 
 <p align="center">
   <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnVwNzlmYTlsMmk2MjR2YnUzZ3ByYjQ2MDJ2aHdiN2QxNTNocTA4MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YdXQlIYxcipNlWqPZM/giphy.gif" alt="Гифка">
