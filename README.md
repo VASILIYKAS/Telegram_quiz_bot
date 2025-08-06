@@ -4,8 +4,9 @@
 Поддерживает работу как во ВКонтакте, так и в Telegram.  
 Хранение состояния (текущих вопросов и счёта) реализовано через Redis.
 
-![Гифка](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnVwNzlmYTlsMmk2MjR2YnUzZ3ByYjQ2MDJ2aHdiN2QxNTNocTA4MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YdXQlIYxcipNlWqPZM/giphy.gif)
-
+<p align="center">
+  <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnVwNzlmYTlsMmk2MjR2YnUzZ3ByYjQ2MDJ2aHdiN2QxNTNocTA4MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YdXQlIYxcipNlWqPZM/giphy.gif" alt="Гифка">
+</p>
 ## Оглавление
 
 - [Установка](#установка-и-запуск)
