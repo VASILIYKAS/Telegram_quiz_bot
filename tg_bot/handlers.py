@@ -81,10 +81,9 @@ async def check_answer_handler(message: types.Message, state: FSMContext, redis_
 
     correct_answer = questions.get(question, '').lower().strip('"')
     clear_answer = re.sub(r'\d+\.', '', correct_answer)
-    print(clear_answer)
     user_answer = message.text.lower().strip()
 
-    if user_answer == correct_answer:
+    if user_answer == clear_answer:
         await message.answer(
             'Правильно! Поздравляю!\n'
             'Для следующего вопроса нажми «Новый вопрос»',
