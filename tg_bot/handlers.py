@@ -1,7 +1,6 @@
 import random
 import re
 
-from questions_loader import load_questions
 from .keyboards import menu_keyboard
 
 from redis.asyncio import Redis
@@ -38,8 +37,7 @@ async def save_user_question(redis_client: Redis, user_id: int, question: str):
     
 
 @router.message(F.text == "Новый вопрос", QuizStates.WAITING_QUESTION)
-async def new_question(message: types.Message, state: FSMContext, redis_client: Redis, questions_file_path):
-    questions = load_questions(questions_file_path)
+async def new_question(message: types.Message, state: FSMContext, redis_client: Redis, questions):
     question, answer = random.choice(list(questions.items()))
     
     await save_user_question(redis_client, message.from_user.id, question)
@@ -48,11 +46,10 @@ async def new_question(message: types.Message, state: FSMContext, redis_client: 
     
     
 @router.message(F.text == "Сдаться", any_state)
-async def give_up_handler(message: types.Message, state: FSMContext, redis_client: Redis, questions_file_path):
+async def give_up_handler(message: types.Message, state: FSMContext, redis_client: Redis, questions):
     user_question_key = f"user:{message.from_user.id}:question"
     question = await redis_client.get(user_question_key)
     if question:
-        questions = load_questions(questions_file_path)
         correct_answer = questions.get(question)
         await message.answer(f"Ответ: {correct_answer}")
         await redis_client.delete(user_question_key)
@@ -70,8 +67,7 @@ async def my_score_handler(message: types.Message, state: FSMContext, redis_clie
 
 
 @router.message(QuizStates.WAITING_ANSWER)
-async def check_answer_handler(message: types.Message, state: FSMContext, redis_client: Redis, questions_file_path):
-    questions = load_questions(questions_file_path)
+async def check_answer_handler(message: types.Message, state: FSMContext, redis_client: Redis, questions):
     user_question_key = f"user:{message.from_user.id}:question"
     question = await redis_client.get(user_question_key)
     if not question:

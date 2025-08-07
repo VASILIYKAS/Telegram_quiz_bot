@@ -5,6 +5,7 @@ import os
 
 from textwrap import dedent
 from dotenv import load_dotenv
+from questions_loader import load_questions
 from .handlers import router
 
 import redis.asyncio as redis
@@ -61,8 +62,10 @@ async def main() -> None:
         os.getenv('QUESTIONS_FILES', 'anime10.txt')
     )
     
+    questions = load_questions(file_path)
+    
     dp['redis_client'] = redis_client
-    dp['questions_file_path'] = file_path
+    dp['questions'] = questions
     
     await startup(redis_client)
     await set_menu_commands(bot)
