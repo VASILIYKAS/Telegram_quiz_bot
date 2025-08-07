@@ -23,7 +23,7 @@ class QuizStates(StatesGroup):
     
     
 @router.message(CommandStart())
-async def command_start_handler(message: types.Message, state: FSMContext):
+async def handle_start_command(message: types.Message, state: FSMContext):
     await message.answer(
         f"Здравствуйте, {html.bold(message.from_user.full_name)}!\n"
         'Для начала игры нажмите "Новый вопрос".', 
@@ -37,7 +37,7 @@ async def save_user_question(redis_client: Redis, user_id: int, question: str):
     
 
 @router.message(F.text == "Новый вопрос", QuizStates.WAITING_QUESTION)
-async def new_question(message: types.Message, state: FSMContext, redis_client: Redis, questions):
+async def send_new_question(message: types.Message, state: FSMContext, redis_client: Redis, questions):
     question, answer = random.choice(list(questions.items()))
     
     await save_user_question(redis_client, message.from_user.id, question)
@@ -46,7 +46,7 @@ async def new_question(message: types.Message, state: FSMContext, redis_client: 
     
     
 @router.message(F.text == "Сдаться", any_state)
-async def give_up_handler(message: types.Message, state: FSMContext, redis_client: Redis, questions):
+async def handle_give_up(message: types.Message, state: FSMContext, redis_client: Redis, questions):
     user_question_key = f"user:{message.from_user.id}:question"
     question = await redis_client.get(user_question_key)
     if question:
@@ -59,7 +59,7 @@ async def give_up_handler(message: types.Message, state: FSMContext, redis_clien
     
     
 @router.message(F.text == "Мой счёт", any_state)
-async def my_score_handler(message: types.Message, state: FSMContext, redis_client: Redis):
+async def show_user_score(message: types.Message, state: FSMContext, redis_client: Redis):
     score_key = f"user:{message.from_user.id}:score"
     score = await redis_client.get(score_key) or 0
     await message.answer(f"Ваш счёт: {int(score)} правильных ответов.")
@@ -67,7 +67,7 @@ async def my_score_handler(message: types.Message, state: FSMContext, redis_clie
 
 
 @router.message(QuizStates.WAITING_ANSWER)
-async def check_answer_handler(message: types.Message, state: FSMContext, redis_client: Redis, questions):
+async def check_user_answer(message: types.Message, state: FSMContext, redis_client: Redis, questions):
     user_question_key = f"user:{message.from_user.id}:question"
     question = await redis_client.get(user_question_key)
     if not question:
