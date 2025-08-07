@@ -9,7 +9,7 @@ import redis.asyncio as redis
 import vk_api
 from vk_api.longpoll import VkLongPoll
 
-from open_questions import load_questions
+from questions_loader import load_questions
 from .handlers import handle_event
 
 

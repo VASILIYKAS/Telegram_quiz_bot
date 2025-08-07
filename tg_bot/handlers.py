@@ -1,7 +1,7 @@
 import random
 import re
 
-from open_questions import load_questions
+from questions_loader import load_questions
 from .keyboards import menu_keyboard
 
 from redis.asyncio import Redis
