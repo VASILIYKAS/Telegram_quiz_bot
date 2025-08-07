@@ -56,7 +56,13 @@ async def main() -> None:
         password=os.getenv('REDIS_DB_PASSWORD'),
     )
     
+    file_path = os.path.join(
+        os.getenv('QUESTIONS_FOLDERS', 'questions'), 
+        os.getenv('QUESTIONS_FILES', 'anime10.txt')
+    )
+    
     dp['redis_client'] = redis_client
+    dp['questions_file_path'] = file_path
     
     await startup(redis_client)
     await set_menu_commands(bot)

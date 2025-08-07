@@ -39,7 +39,7 @@ async def save_user_question(redis_client: Redis, user_id: int, question: str):
 
 @router.message(F.text == "Новый вопрос", QuizStates.WAITING_QUESTION)
 async def new_question(message: types.Message, state: FSMContext, redis_client: Redis):
-    questions = load_questions()
+    questions = load_questions(message.bot['questions_file_path'])
     question, answer = random.choice(list(questions.items()))
     
     await save_user_question(redis_client, message.from_user.id, question)
@@ -52,7 +52,7 @@ async def give_up_handler(message: types.Message, state: FSMContext, redis_clien
     user_question_key = f"user:{message.from_user.id}:question"
     question = await redis_client.get(user_question_key)
     if question:
-        questions = load_questions()
+        questions = load_questions(message.bot['questions_file_path'])
         correct_answer = questions.get(question)
         await message.answer(f"Ответ: {correct_answer}")
         await redis_client.delete(user_question_key)
@@ -71,7 +71,7 @@ async def my_score_handler(message: types.Message, state: FSMContext, redis_clie
 
 @router.message(QuizStates.WAITING_ANSWER)
 async def check_answer_handler(message: types.Message, state: FSMContext, redis_client: Redis):
-    questions = load_questions()
+    questions = load_questions(message.bot['questions_file_path'])
     user_question_key = f"user:{message.from_user.id}:question"
     question = await redis_client.get(user_question_key)
     if not question:

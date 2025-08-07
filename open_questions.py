@@ -1,13 +1,7 @@
-import os
 import re
-from dotenv import load_dotenv
 
 
-load_dotenv()
-
-
-def load_questions():
-    file_path = os.path.join('questions', os.getenv('QUESTIONS_FILES', 'anime10.txt'))
+def load_questions(file_path):
 
     with open(file_path, 'r', encoding='KOI8-R') as questions_file:
         file_contents = questions_file.read()
@@ -27,5 +21,3 @@ def load_questions():
         questions_answers[question] = answer
         
     return questions_answers
-
-

@@ -30,8 +30,12 @@ async def main():
     )
 
     logging.basicConfig(level=logging.INFO)
-
-    questions = load_questions()
+    
+    file_path = os.path.join(
+        os.getenv('QUESTIONS_FOLDERS', 'questions'), 
+        os.getenv('QUESTIONS_FILES', 'anime10.txt')
+    )
+    questions = load_questions(file_path)
 
     print("Бот ВК запущен!")
 
