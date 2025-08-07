@@ -34,7 +34,7 @@ async def startup(redis_client):
 async def main() -> None:
     load_dotenv()
     
-    bot = Bot(token=os.getenv('TG_BOT_TOKEN'), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    bot = Bot(token=os.environ['TG_BOT_TOKEN'], default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     
     if not bot.token:
         print(dedent("""\
@@ -49,11 +49,11 @@ async def main() -> None:
     dp.include_router(router)
     
     redis_client = redis.Redis(
-        host=os.getenv('REDIS_DB_HOST'),
-        port=os.getenv('REDIS_DB_PORT'),
+        host=os.environ['REDIS_DB_HOST'],
+        port=os.environ['REDIS_DB_PORT'],
         decode_responses=True,
         username="default",
-        password=os.getenv('REDIS_DB_PASSWORD'),
+        password=os.environ['REDIS_DB_PASSWORD'],
     )
     
     file_path = os.path.join(

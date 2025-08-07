@@ -17,16 +17,16 @@ from .handlers import handle_event
 async def main():
     load_dotenv()
 
-    vk_session = vk_api.VkApi(token=os.getenv("VK_BOT_TOKEN"))
+    vk_session = vk_api.VkApi(token=os.environ["VK_BOT_TOKEN"])
     vk = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
 
     redis_client = redis.Redis(
-        host=os.getenv('REDIS_DB_HOST'),
-        port=os.getenv('REDIS_DB_PORT'),
+        host=os.environ['REDIS_DB_HOST'],
+        port=os.environ['REDIS_DB_PORT'],
         decode_responses=True,
         username="default",
-        password=os.getenv('REDIS_DB_PASSWORD'),
+        password=os.environ['REDIS_DB_PASSWORD'],
     )
 
     logging.basicConfig(level=logging.INFO)
